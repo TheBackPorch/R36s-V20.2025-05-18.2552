@@ -2,49 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Ensures proper scaling and Dynamic Island / Notch support across iPhone & Android -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f172a" />
-  <title>R36S V20 (2025-05-18.2552) — Setup, Firmware & Reference Guide</title>
-
+  <meta name="theme-color" content="#090b10" />
+  <title>R36S 6S-V20 (2552) — Interactive Hardware Blueprint</title>
   <style>
-    /* ==========================================================================
-       1. CSS VARIABLES & FLUID SCALING (360px Mobile -> 1280px+ Tablet/Desktop)
-       ========================================================================== */
     :root {
-      --bg-primary: #0b0f19;
-      --bg-surface: #131b2e;
-      --bg-surface-hover: #1b2640;
-      --border-color: #263452;
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --accent-primary: #38bdf8;
-      --accent-secondary: #818cf8;
-      --accent-success: #34d399;
-      --accent-warning: #fbbf24;
-      --accent-danger: #f87171;
+      --bg-window: #0b0e14;
+      --bg-chrome: #131824;
+      --bg-panel: #101520;
+      --bg-card: #161d2c;
+      --bg-card-active: #1d273b;
+      --border: #253047;
+      --border-strong: #374769;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-purple: #a855f7;
+      --accent-purple-soft: rgba(168, 85, 247, 0.22);
+      --accent-cyan: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
 
-      /* Fluid Typography using clamp() so text scales smoothly on all devices */
-      --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.85rem);
-      --fs-sm: clamp(0.875rem, 0.82rem + 0.25vw, 0.95rem);
-      --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.075rem);
-      --fs-lg: clamp(1.15rem, 1.05rem + 0.5vw, 1.35rem);
-      --fs-xl: clamp(1.5rem, 1.25rem + 1.1vw, 2.15rem);
+      --fs-xs: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);
+      --fs-sm: clamp(0.78rem, 0.74rem + 0.18vw, 0.85rem);
+      --fs-base: clamp(0.875rem, 0.84rem + 0.2vw, 0.95rem);
+      --fs-lg: clamp(1rem, 0.92rem + 0.35vw, 1.15rem);
 
-      /* Fluid Spacing & Safe Area Insets (iPhone Notch / Home Bar) */
-      --space-sm: clamp(0.5rem, 1.5vw, 0.75rem);
-      --space-md: clamp(0.85rem, 2.5vw, 1.25rem);
-      --space-lg: clamp(1.25rem, 3.5vw, 2rem);
-      --radius: 12px;
+      --shell-color: #9333ea;
+      --shell-opacity: 0.48;
+      --door-opacity: 0.85;
+      --bumper-opacity: 0.96;
+
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-left: env(safe-area-inset-left, 0px);
       --safe-right: env(safe-area-inset-right, 0px);
     }
 
-    /* ==========================================================================
-       2. RESET & BASE STYLES
-       ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -52,794 +46,1203 @@
     }
 
     html {
-      scroll-behavior: smooth;
       -webkit-text-size-adjust: 100%;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
+      background: #06080c;
+      color: var(--text-main);
       font-size: var(--fs-base);
-      line-height: 1.6;
+      line-height: 1.45;
+      min-height: 100vh;
       overflow-x: hidden;
-      padding-left: var(--safe-left);
-      padding-right: var(--safe-right);
-      padding-bottom: calc(2.5rem + var(--safe-bottom));
+      padding: calc(0.5rem + var(--safe-top)) calc(0.5rem + var(--safe-right)) calc(1.25rem + var(--safe-bottom)) calc(0.5rem + var(--safe-left));
     }
 
-    /* ==========================================================================
-       3. STICKY HEADER & TOUCH/POINTER-ADAPTIVE NAVIGATION
-       ========================================================================== */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 15, 25, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      padding-top: calc(0.75rem + var(--safe-top));
-      padding-bottom: 0.75rem;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1180px;
+    .app-frame {
+      max-width: 1440px;
       margin: 0 auto;
-      padding-left: var(--space-md);
-      padding-right: var(--space-md);
+      background: var(--bg-window);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
     }
 
-    .header-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .brand-row {
+    /* Window Title / Header Bar */
+    .window-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #0e121b;
+      border-bottom: 1px solid var(--border);
     }
 
-    .brand-title {
-      font-size: var(--fs-lg);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-    }
-
-    .badge-group {
+    .traffic-lights {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      flex-wrap: wrap;
+      gap: 0.45rem;
     }
 
-    .version-badge, .mode-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.22rem 0.6rem;
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #22c55e; }
+
+    .window-title {
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      flex: 1 1 auto;
+    }
+
+    .mode-pill {
       font-size: var(--fs-xs);
       font-weight: 600;
+      padding: 0.2rem 0.6rem;
       border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .version-badge {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent-primary);
+      background: rgba(56, 189, 248, 0.14);
+      color: var(--accent-cyan);
       border: 1px solid rgba(56, 189, 248, 0.35);
-    }
-
-    .mode-badge {
-      background: rgba(129, 140, 248, 0.14);
-      color: var(--accent-secondary);
-      border: 1px solid rgba(129, 140, 248, 0.32);
-    }
-
-    /* Horizontal scrollable pill nav on mobile; wraps cleanly on tablets/desktop */
-    .nav-bar {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding-bottom: 2px;
-    }
-    .nav-bar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .nav-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px; /* Touch target default */
-      padding: 0.5rem 0.95rem;
-      background: var(--bg-surface);
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: var(--fs-sm);
-      font-weight: 500;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
       white-space: nowrap;
-      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
-    .nav-link:hover, .nav-link:focus-visible {
-      background: var(--bg-surface-hover);
-      border-color: var(--accent-primary);
+    /* Blueprint Header Strip */
+    .blueprint-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-chrome);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+      flex: 1 1 280px;
+    }
+
+    .rev-badge {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .blueprint-header h1 {
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .blueprint-header .subtitle {
+      font-size: var(--fs-xs);
+      color: var(--text-muted);
+    }
+
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .ctrl-btn {
+      min-height: 44px;
+      padding: 0.4rem 0.75rem;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      color: var(--text-main);
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .ctrl-btn:hover, .ctrl-btn:focus-visible {
+      background: var(--bg-card-active);
+      border-color: var(--accent-cyan);
       outline: none;
     }
 
-    .nav-link.active {
-      background: rgba(56, 189, 248, 0.16);
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
+    .ctrl-btn.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
     }
 
-    /* ==========================================================================
-       4. HERO & SEARCH FILTER (16px input font prevents iOS Safari auto-zoom)
-       ========================================================================== */
-    .hero {
-      padding: var(--space-lg) 0 var(--space-md);
-    }
-
-    .hero h1 {
-      font-size: var(--fs-xl);
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero p {
-      color: var(--text-secondary);
-      max-width: 68ch;
-      margin-bottom: var(--space-md);
-    }
-
-    .search-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      max-width: 560px;
-    }
-
-    .search-box {
-      position: relative;
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-input {
-      width: 100%;
-      min-height: 48px;
-      padding: 0.75rem 2.75rem 0.75rem 1rem;
-      font-size: 16px; /* CRITICAL: Prevents iOS Safari zoom-on-focus */
-      color: var(--text-primary);
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-    }
-
-    .search-input:focus {
-      outline: 2px solid var(--accent-primary);
-      border-color: transparent;
-    }
-
-    .clear-btn {
-      position: absolute;
-      right: 0.4rem;
-      min-width: 38px;
-      min-height: 38px;
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 1.2rem;
-      cursor: pointer;
-      border-radius: 8px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .clear-btn:hover {
-      background: var(--bg-surface-hover);
-      color: var(--text-primary);
-    }
-
-    .search-status {
-      font-size: var(--fs-xs);
-      color: var(--text-secondary);
-      min-height: 1.2em;
-    }
-
-    /* ==========================================================================
-       5. RESPONSIVE GRID SYSTEM (1 Col Phone -> 2 Col Tablet -> 3 Col Landscape)
-       ========================================================================== */
-    section {
-      margin-top: var(--space-lg);
-      scroll-margin-top: 130px;
-    }
-
-    .section-title {
-      font-size: var(--fs-lg);
-      font-weight: 700;
-      margin-bottom: var(--space-md);
-      padding-bottom: 0.4rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: 1fr; /* Phones (360px - 599px) */
-      gap: var(--space-md);
-    }
-
-    /* Portrait Tablets (600px - 899px) */
-    @media (min-width: 600px) {
-      .card-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .header-inner {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
-
-    /* Landscape Tablets & Desktops (900px+) */
-    @media (min-width: 900px) {
-      .card-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: var(--space-md);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      transition: border-color 0.15s ease, transform 0.15s ease;
-    }
-
-    .card h3 {
-      font-size: var(--fs-base);
-      color: var(--accent-primary);
-    }
-
-    .card p, .card li {
-      font-size: var(--fs-sm);
-      color: var(--text-secondary);
-    }
-
-    .card ul {
-      padding-left: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    /* Tap-to-copy inline code snippets */
-    code.copyable {
-      background: rgba(11, 15, 25, 0.85);
-      border: 1px solid var(--border-color);
-      color: var(--accent-primary);
-      padding: 0.1rem 0.4rem;
-      border-radius: 5px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.88em;
-      cursor: pointer;
-      transition: border-color 0.15s ease, background 0.15s ease;
-    }
-
-    code.copyable:hover {
-      border-color: var(--accent-primary);
-      background: var(--bg-surface-hover);
-    }
-
-    /* ==========================================================================
-       6. RESPONSIVE TABLES (Auto-converts to stacked cards on <640px screens)
-       ========================================================================== */
-    .table-wrapper {
-      width: 100%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: var(--fs-sm);
-    }
-
-    th, td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    th {
-      background: #172138;
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    kbd {
-      display: inline-block;
-      padding: 0.15rem 0.45rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: var(--fs-xs);
-      color: var(--text-primary);
-      background: #0b0f19;
-      border: 1px solid #3b4d75;
-      border-radius: 5px;
-    }
-
-    /* Mobile Card Stack for Tables on Phones (360px - 639px) */
-    @media (max-width: 639px) {
-      .responsive-table thead {
-        display: none;
-      }
-      .responsive-table, .responsive-table tbody, .responsive-table tr, .responsive-table td {
-        display: block;
-        width: 100%;
-      }
-      .responsive-table tr {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .responsive-table tr:last-child {
-        border-bottom: none;
-      }
-      .responsive-table td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.4rem 0;
-        border-bottom: 1px dashed rgba(148, 163, 184, 0.15);
-        text-align: right;
-      }
-      .responsive-table td:last-child {
-        border-bottom: none;
-      }
-      .responsive-table td::before {
-        content: attr(data-label);
-        font-weight: 600;
-        color: var(--text-primary);
-        text-align: left;
-      }
-    }
-
-    /* ==========================================================================
-       7. TOUCH-FRIENDLY ACCORDIONS (48px minimum tap target)
-       ========================================================================== */
-    details {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      margin-bottom: 0.75rem;
-      transition: border-color 0.15s ease;
-    }
-
-    details[open] {
-      border-color: rgba(56, 189, 248, 0.45);
-    }
-
-    summary {
-      min-height: 48px;
-      padding: 0.85rem 1rem;
-      font-weight: 600;
-      font-size: var(--fs-base);
-      cursor: pointer;
-      list-style: none;
+    /* Color & Opacity Sub-Bar */
+    .style-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      padding: 0.6rem 1rem;
+      background: #0f141f;
+      border-bottom: 1px solid var(--border);
+      font-size: var(--fs-xs);
     }
 
-    summary::-webkit-details-marker {
-      display: none;
+    .swatch-group, .slider-group, .trigger-swatches {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
     }
 
-    summary::after {
-      content: "+";
-      font-size: 1.25rem;
-      color: var(--accent-primary);
+    .bar-label {
       font-weight: 700;
-      flex-shrink: 0;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-transform: uppercase;
     }
 
-    details[open] summary::after {
-      content: "−";
-    }
-
-    .details-content {
-      padding: 0.75rem 1rem 1rem;
-      color: var(--text-secondary);
-      font-size: var(--fs-sm);
-      border-top: 1px solid rgba(38, 52, 82, 0.6);
-    }
-
-    /* ==========================================================================
-       8. POINTER-AWARE REFINEMENTS (Laptop/Desktop Mouse vs Touch Screen)
-       ========================================================================== */
-    @media (pointer: fine) and (min-width: 900px) {
-      .nav-link {
-        min-height: 36px;
-        padding: 0.35rem 0.85rem;
-      }
-      summary {
-        min-height: 42px;
-        padding: 0.65rem 1rem;
-      }
-      .card:hover {
-        border-color: rgba(56, 189, 248, 0.45);
-      }
-      tbody tr:hover {
-        background: rgba(255, 255, 255, 0.02);
-      }
-    }
-
-    /* Empty search fallback & floating Back-to-Top button */
-    .empty-state {
-      display: none;
-      text-align: center;
-      padding: 2rem 1rem;
-      background: var(--bg-surface);
-      border: 1px dashed var(--border-color);
-      border-radius: var(--radius);
-      color: var(--text-secondary);
-      margin-top: var(--space-md);
-    }
-
-    .back-to-top {
-      position: fixed;
-      right: calc(1rem + var(--safe-right));
-      bottom: calc(1rem + var(--safe-bottom));
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0 0.85rem;
-      background: var(--bg-surface);
-      color: var(--accent-primary);
-      border: 1px solid var(--accent-primary);
-      border-radius: 999px;
-      font-size: var(--fs-sm);
-      font-weight: 600;
+    .color-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(8px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 90;
+      position: relative;
     }
 
-    .back-to-top.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+    .color-dot.active {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 2px var(--accent-cyan);
     }
 
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border-color);
+    .color-name {
+      color: var(--text-main);
+      font-weight: 600;
+      margin-left: 0.2rem;
+    }
+
+    .slider-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-muted);
+    }
+
+    .slider-item input[type="range"] {
+      width: 78px;
+      accent-color: var(--accent-purple);
+      cursor: pointer;
+      min-height: 28px;
+    }
+
+    .slider-val {
+      min-width: 34px;
+      text-align: right;
+      color: var(--text-main);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Mobile View Switcher (shown on narrow screens < 900px) */
+    .mobile-pane-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg-chrome);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pane-tab {
+      min-height: 44px;
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .pane-tab.active {
+      color: var(--text-main);
+      background: var(--bg-card-active);
+      border-color: var(--accent-purple);
+    }
+
+    /* Main 3-Column Workspace (Desktop / Landscape Tablet) */
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .pane {
+      padding: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pane:last-child {
+      border-bottom: none;
+    }
+
+    @media (min-width: 900px) {
+      .mobile-pane-tabs {
+        display: none;
+      }
+      .workspace {
+        grid-template-columns: minmax(270px, 310px) minmax(360px, 1fr) minmax(290px, 350px);
+        align-items: start;
+      }
+      .pane {
+        display: block !important;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+      }
+      .pane:last-child {
+        border-right: none;
+      }
+    }
+
+    /* Mobile tab visibility when < 900px */
+    @media (max-width: 899px) {
+      .pane {
+        display: none;
+      }
+      .pane.mobile-visible {
+        display: block;
+      }
+    }
+
+    /* Left Rail: Original vs. Mod Loadout */
+    .pane-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pane-title {
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .toggle-upgrades-btn {
+      min-height: 38px;
+      padding: 0.3rem 0.65rem;
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .toggle-upgrades-btn.off {
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border-color: var(--border-strong);
+    }
+
+    .mod-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .mod-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-purple);
+      border-radius: 10px;
+      padding: 0.7rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .mod-card:hover, .mod-card.selected {
+      background: var(--bg-card-active);
+      border-color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+    }
+
+    .mod-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .mod-name {
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .mod-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+      background: rgba(168, 85, 247, 0.18);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      white-space: nowrap;
+    }
+
+    .mod-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-size: var(--fs-xs);
+    }
+
+    @media (max-width: 390px) {
+      .mod-compare {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .compare-box {
+      background: rgba(9, 12, 19, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 7px;
+      padding: 0.45rem 0.55rem;
+    }
+
+    .compare-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+
+    .label-orig { color: var(--text-muted); }
+    .label-mod { color: var(--accent-green); }
+    .label-mod.inactive { color: var(--text-muted); opacity: 0.6; }
+
+    /* Center Stage: Interactive Hardware Blueprint SVG */
+    .canvas-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .blueprint-svg-wrap {
+      width: 100%;
+      max-width: 540px;
+      background: #0d121c;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.65rem;
+      position: relative;
+    }
+
+    svg.blueprint-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      user-select: none;
+    }
+
+    .part-interactive {
+      cursor: pointer;
+      transition: filter 0.15s ease, opacity 0.15s ease;
+    }
+
+    .part-interactive:hover {
+      filter: brightness(1.18);
+    }
+
+    .part-selected {
+      stroke: #38bdf8 !important;
+      stroke-width: 2.5 !important;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.65));
+    }
+
+    .shell-body {
+      fill: var(--shell-color);
+      fill-opacity: var(--shell-opacity);
+      stroke: var(--shell-color);
+      stroke-width: 2.5;
+    }
+
+    .battery-door-layer {
+      opacity: var(--door-opacity);
+      transition: opacity 0.15s ease;
+    }
+
+    .triggers-layer {
+      opacity: var(--bumper-opacity);
+      transition: opacity 0.15s ease;
+    }
+
+    .stage-hint {
+      width: 100%;
+      max-width: 540px;
       text-align: center;
       font-size: var(--fs-xs);
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+    }
+
+    /* Right Rail: Telemetry & Component Inspector */
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .panel-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.55rem;
+    }
+
+    @media (max-width: 380px) {
+      .telemetry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-tile {
+      background: #0c1018;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+    }
+
+    .stat-label {
+      font-size: 0.64rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .stat-value {
+      font-size: var(--fs-sm);
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 0.15rem;
+      display: block;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-value.modded {
+      color: var(--accent-green);
+    }
+
+    .inspector-title {
+      font-size: var(--fs-base);
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 0.45rem;
+    }
+
+    .inspector-sub {
+      font-size: var(--fs-xs);
+      color: var(--accent-amber);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .inspector-desc {
+      font-size: var(--fs-xs);
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .safety-box {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 8px;
+      padding: 0.6rem 0.7rem;
+      font-size: var(--fs-xs);
+    }
+
+    .safety-box strong {
+      color: #fca5a5;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .safety-box ul {
+      padding-left: 1rem;
+      color: #fecaca;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    code.copy-chip {
+      background: rgba(56, 189, 248, 0.14);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      cursor: pointer;
+    }
+
+    /* Pointer fine desktop adjustments */
+    @media (pointer: fine) and (min-width: 900px) {
+      .ctrl-btn {
+        min-height: 36px;
+        padding: 0.3rem 0.65rem;
+      }
+      .pane-tab {
+        min-height: 38px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- STICKY TOP BAR -->
-  <header>
-    <div class="container header-inner">
-      <div class="brand-row">
-        <span class="brand-title">R36S Reference Hub</span>
-        <div class="badge-group">
-          <span class="version-badge">V20 • 2025-05-18.2552</span>
-          <span class="mode-badge" id="deviceModeBadge" aria-live="polite">Detecting...</span>
-        </div>
+  <div class="app-frame">
+    <!-- Top OS / App Window Bar -->
+    <div class="window-bar">
+      <div class="traffic-lights" aria-hidden="true">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
       </div>
-      <nav class="nav-bar" aria-label="Section navigation">
-        <a href="#hardware" class="nav-link">Board &amp; DTB</a>
-        <a href="#hotkeys" class="nav-link">Hotkeys</a>
-        <a href="#firmware" class="nav-link">Firmware &amp; SD</a>
-        <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- HERO & INSTANT FILTER -->
-    <section class="hero" style="margin-top: 0;">
-      <h1>R36S V20 (2025-05-18.2552) Guide</h1>
-      <p>Adaptive hardware identification, DTB file matching, ArkOS flashing steps, and system hotkeys. Tap any highlighted filename to copy it.</p>
-      <div class="search-controls">
-        <div class="search-box">
-          <input
-            type="search"
-            id="filterInput"
-            class="search-input"
-            placeholder="Filter hotkeys, DTB files, or topics..."
-            aria-label="Filter guide content"
-          />
-          <button type="button" id="clearFilterBtn" class="clear-btn" aria-label="Clear search">&times;</button>
-        </div>
-        <div id="searchStatus" class="search-status" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <div id="emptyState" class="empty-state">
-      No matching entries found. Try clearing your filter or searching another term.
+      <div class="window-title">R36S 6S-V20 (2552) — Interactive Hardware Blueprint</div>
+      <div class="mode-pill" id="deviceBadge">Detecting...</div>
     </div>
 
-    <!-- SECTION 1: HARDWARE & DTB IDENTIFICATION -->
-    <section id="hardware" class="filter-section">
-      <h2 class="section-title">V20 Hardware &amp; DTB Identification</h2>
-      <div class="card-grid">
-        <article class="card filter-item">
-          <h3>Board Revision Details</h3>
-          <ul>
-            <li><strong>PCB Stamp:</strong> <code class="copyable" title="Tap to copy">R36S-V20 2025-05-18</code></li>
-            <li><strong>SoC:</strong> Rockchip RK3326 (Quad-Core Cortex-A35 @ 1.5GHz)</li>
-            <li><strong>RAM:</strong> 1GB DDR3L (Verify single vs. dual chip layout)</li>
-            <li><strong>Display:</strong> 3.5&quot; IPS 640×480 (4:3)</li>
-          </ul>
-        </article>
-
-        <article class="card filter-item">
-          <h3>Panel &amp; DTB Compatibility</h3>
-          <ul>
-            <li>Always back up the original <code class="copyable" title="Tap to copy">BOOT</code> partition before flashing.</li>
-            <li>Copy your stock <code class="copyable" title="Tap to copy">.dtb</code> files (e.g., <code class="copyable" title="Tap to copy">rk3326-r35s-linux.dtb</code> or <code class="copyable" title="Tap to copy">rg351mp-kernel.dtb</code>) to a safe folder.</li>
-            <li>If the screen stays black after flashing ArkOS, replace the <code class="copyable" title="Tap to copy">.dtb</code> file on the new <code class="copyable" title="Tap to copy">BOOT</code> partition with your backup.</li>
-          </ul>
-        </article>
-
-        <article class="card filter-item">
-          <h3>Clone vs. Genuine Check</h3>
-          <ul>
-            <li><strong>Genuine ArkOS:</strong> Boots directly into EmulationStation; volume buttons work natively without EmuELEC overlays.</li>
-            <li><strong>Clone / EmuELEC Units:</strong> Often use single RAM chip layouts and require K36 / Clone ArkOS builds.</li>
-            <li>Check the battery compartment label and PCB silkscreen under the battery.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <!-- SECTION 2: RESPONSIVE HOTKEYS TABLE -->
-    <section id="hotkeys" class="filter-section">
-      <h2 class="section-title">ArkOS &amp; RetroArch Hotkeys</h2>
-      <div class="table-wrapper">
-        <table class="responsive-table">
-          <thead>
-            <tr>
-              <th>Action</th>
-              <th>Primary Combo (FN)</th>
-              <th>Alternate Combo (Select)</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Exit Game</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>Start</kbd> (×2)</td>
-              <td data-label="Alt (Select)"><kbd>Select</kbd> + <kbd>Start</kbd> (×2)</td>
-              <td data-label="Notes">Press Start twice quickly</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>RetroArch Menu</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>X</kbd></td>
-              <td data-label="Alt (Select)"><kbd>Select</kbd> + <kbd>X</kbd></td>
-              <td data-label="Notes">Opens Quick Menu in-game</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Save State</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>R1</kbd></td>
-              <td data-label="Alt (Select)"><kbd>Select</kbd> + <kbd>R1</kbd></td>
-              <td data-label="Notes">Saves to current slot</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Load State</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>L1</kbd></td>
-              <td data-label="Alt (Select)"><kbd>Select</kbd> + <kbd>L1</kbd></td>
-              <td data-label="Notes">Loads from current slot</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Fast Forward</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>R2</kbd></td>
-              <td data-label="Alt (Select)"><kbd>Select</kbd> + <kbd>R2</kbd></td>
-              <td data-label="Notes">Toggles frame throttle</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Screen Brightness</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>Vol + / −</kbd></td>
-              <td data-label="Alt (Select)"><kbd>R3</kbd> + <kbd>Vol + / −</kbd></td>
-              <td data-label="Notes">Adjusts backlight level</td>
-            </tr>
-            <tr class="filter-item">
-              <td data-label="Action"><strong>Safe Shutdown</strong></td>
-              <td data-label="Primary (FN)"><kbd>FN</kbd> + <kbd>Power</kbd></td>
-              <td data-label="Alt (Select)">Menu → Quit → Shutdown</td>
-              <td data-label="Notes">Prevents SD card corruption</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- SECTION 3: FIRMWARE & SD CARD SETUP -->
-    <section id="firmware" class="filter-section">
-      <h2 class="section-title">SD Card &amp; Firmware Setup</h2>
-      <div class="card-grid">
-        <article class="card filter-item">
-          <h3>1. Replace Stock SD Cards</h3>
-          <p>Stock microSD cards fail frequently. Use a reliable brand (SanDisk, Samsung, Kingston) — 16GB/32GB for OS (<code class="copyable" title="Tap to copy">TF1</code>) and 64GB–256GB for ROMs (<code class="copyable" title="Tap to copy">TF2</code>).</p>
-        </article>
-        <article class="card filter-item">
-          <h3>2. Backup Original BOOT</h3>
-          <p>Insert the stock card into your PC and copy every <code class="copyable" title="Tap to copy">.dtb</code>, <code class="copyable" title="Tap to copy">.ini</code>, and <code class="copyable" title="Tap to copy">boot</code> file before formatting anything.</p>
-        </article>
-        <article class="card filter-item">
-          <h3>3. Flash &amp; First Boot</h3>
-          <p>Flash the R36S ArkOS image using Rufus or balenaEtcher. Insert into <strong>TF1-OS</strong> and wait 3–5 minutes for partition expansion.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- SECTION 4: ACCORDION TROUBLESHOOTING -->
-    <section id="troubleshooting" class="filter-section">
-      <h2 class="section-title">Quick Troubleshooting</h2>
-
-      <details class="filter-item">
-        <summary>Black screen on boot (Blue/Red LED is on)</summary>
-        <div class="details-content">
-          Your display panel requires a different DTB file. Put the TF1 SD card back into your computer, open the <code class="copyable" title="Tap to copy">BOOT</code> drive, and copy your original backup <code class="copyable" title="Tap to copy">.dtb</code> files over (or test Panel 1–4 DTB files from the ArkOS DTB folder).
+    <!-- Blueprint Title & Layer/Unit Controls -->
+    <header class="blueprint-header">
+      <div class="title-group">
+        <span class="rev-badge">REV 1.6</span>
+        <div>
+          <h1>R36S 6S-V20 (2025-05-18 / 2552) Hardware Blueprint</h1>
+          <div class="subtitle">Anatomical Rear Shell &bull; Stock vs. Mod Inspector &bull; CAD Caliper</div>
         </div>
-      </details>
+      </div>
 
-      <details class="filter-item">
-        <summary>Red blinking LED / Console won't power on</summary>
-        <div class="details-content">
-          Charge using a standard <strong>5V 1.5A / 2A USB-A to USB-C cable</strong>. High-wattage USB-C PD fast chargers (laptop/phone brick chargers) will not negotiate power properly with the R36S charging circuit.
+      <div class="toolbar-controls" role="toolbar" aria-label="Blueprint view controls">
+        <button type="button" class="ctrl-btn" id="unitBtn">Units: Metric (mm)</button>
+        <button type="button" class="ctrl-btn" id="caliperBtn">Caliper Ruler: OFF</button>
+        <button type="button" class="ctrl-btn active" id="shellToggleBtn">Outer Shell</button>
+        <button type="button" class="ctrl-btn active" id="triggersToggleBtn">L1/L2/R1/R2</button>
+        <button type="button" class="ctrl-btn active" id="doorToggleBtn">Battery Door</button>
+        <button type="button" class="ctrl-btn active" id="cadToggleBtn">CAD Dims</button>
+      </div>
+    </header>
+
+    <!-- Shell / Trigger Color & Layer Opacity Bar -->
+    <div class="style-bar">
+      <div class="swatch-group">
+        <span class="bar-label">Shell &amp; Door Color:</span>
+        <button type="button" class="color-dot active" data-color="#9333ea" data-name="Atomic Purple" style="background:#9333ea;" aria-label="Atomic Purple"></button>
+        <button type="button" class="color-dot" data-color="#2563eb" data-name="Cobalt Blue" style="background:#2563eb;" aria-label="Cobalt Blue"></button>
+        <button type="button" class="color-dot" data-color="#16a34a" data-name="Emerald Green" style="background:#16a34a;" aria-label="Emerald Green"></button>
+        <button type="button" class="color-dot" data-color="#dc2626" data-name="Crimson Red" style="background:#dc2626;" aria-label="Crimson Red"></button>
+        <button type="button" class="color-dot" data-color="#e2e8f0" data-name="Glacier White" style="background:#e2e8f0;" aria-label="Glacier White"></button>
+        <button type="button" class="color-dot" data-color="#1e293b" data-name="Obsidian Black" style="background:#1e293b;" aria-label="Obsidian Black"></button>
+        <span class="color-name" id="shellColorName">Atomic Purple</span>
+      </div>
+
+      <div class="trigger-swatches">
+        <span class="bar-label">Triggers:</span>
+        <button type="button" class="color-dot active" data-tcolor="#9333ea" style="background:#9333ea; width:22px; height:22px;" aria-label="Purple triggers"></button>
+        <button type="button" class="color-dot" data-tcolor="#f97316" style="background:#f97316; width:22px; height:22px;" aria-label="Orange triggers"></button>
+        <button type="button" class="color-dot" data-tcolor="#06b6d4" style="background:#06b6d4; width:22px; height:22px;" aria-label="Cyan triggers"></button>
+        <button type="button" class="color-dot" data-tcolor="#ef4444" style="background:#ef4444; width:22px; height:22px;" aria-label="Red triggers"></button>
+        <button type="button" class="color-dot" data-tcolor="#f8fafc" style="background:#f8fafc; width:22px; height:22px;" aria-label="White triggers"></button>
+      </div>
+
+      <div class="slider-group">
+        <label class="slider-item">
+          <span>Shell</span>
+          <input type="range" id="shellOpacity" min="0" max="100" value="48" />
+          <span class="slider-val" id="shellOpacityVal">48%</span>
+        </label>
+        <label class="slider-item">
+          <span>Door</span>
+          <input type="range" id="doorOpacity" min="0" max="100" value="85" />
+          <span class="slider-val" id="doorOpacityVal">85%</span>
+        </label>
+        <label class="slider-item">
+          <span>Bumpers</span>
+          <input type="range" id="bumperOpacity" min="0" max="100" value="96" />
+          <span class="slider-val" id="bumperOpacityVal">96%</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Mobile View Switcher Tabs (< 900px) -->
+    <div class="mobile-pane-tabs" role="tablist">
+      <button type="button" class="pane-tab active" data-pane="pane-mods">Mod Loadout</button>
+      <button type="button" class="pane-tab" data-pane="pane-blueprint">Blueprint</button>
+      <button type="button" class="pane-tab" data-pane="pane-inspector">Inspector</button>
+    </div>
+
+    <!-- Main 3-Column Blueprint Workspace -->
+    <div class="workspace">
+      <!-- Left Rail: Original vs. Mod Loadout -->
+      <aside class="pane mobile-visible" id="pane-mods" aria-label="Original vs. Mod Loadout">
+        <div class="pane-header-row">
+          <span class="pane-title">Original vs. Mod Loadout</span>
+          <button type="button" class="toggle-upgrades-btn" id="toggleUpgradesBtn">TOGGLE UPGRADES</button>
         </div>
-      </details>
 
-      <details class="filter-item">
-        <summary>TF2 (Games) SD card not detected</summary>
-        <div class="details-content">
-          Format your secondary card as <strong>exFAT</strong> or <strong>FAT32</strong>, insert it into the TF2 slot, go to <em>Options → Advanced → Switch to SD2 for ROMs</em> in EmulationStation, and let ArkOS generate the folder structure.
+        <div class="mod-list" id="modList">
+          <article class="mod-card selected" data-part="ram">
+            <div class="mod-top">
+              <span class="mod-name">LZ4 ZRAM + DDR3 OC</span>
+              <span class="mod-tag">Software/DTB</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                717 MB usable RAM @ 328 MHz DDR3 clock
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                +512 MB LZ4 ZRAM (-1.2 GB eff.) + 528 MHz DDR3 (+61% BW)
+              </div>
+            </div>
+          </article>
+
+          <article class="mod-card" data-part="ram">
+            <div class="mod-top">
+              <span class="mod-name">2GB Single-Chip BGA Swap</span>
+              <span class="mod-tag">Expert BGA</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                1x XINYUWEI 1GB DDR3 FBGA-96 (2nd slot unpopulated)
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                Reball 2GB (16Gbit) DDR3L IC onto populated slot + ddrbin patch
+              </div>
+            </div>
+          </article>
+
+          <article class="mod-card" data-part="soc">
+            <div class="mod-top">
+              <span class="mod-name">OPP Overclock + Copper Shim</span>
+              <span class="mod-tag">Thermal/DTB</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                RK3326-S @ 1296 MHz / 620 MHz GPU (bare chip)
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                1512 MHz CPU / 600 MHz GPU + 15&times;15&times;2 mm copper shim
+              </div>
+            </div>
+          </article>
+
+          <article class="mod-card" data-part="battery">
+            <div class="mod-top">
+              <span class="mod-name">BMS Protected 4000mAh Cell</span>
+              <span class="mod-tag">Drop-In</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                Unprotected 804068 3500mAh Li-Ion (no BMS board)
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                Protected 804068 4000mAh Li-Po w/ integrated BMS + JST-XH
+              </div>
+            </div>
+          </article>
+
+          <article class="mod-card" data-part="wifi">
+            <div class="mod-top">
+              <span class="mod-name">Internal USB-OTG Wi-Fi</span>
+              <span class="mod-tag">Soldering</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                No onboard wireless (requires external USB-C dongle)
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                RTL8188FTV / MT7601U soldered to OTG D+/D-/3.3V/GND
+              </div>
+            </div>
+          </article>
+
+          <article class="mod-card" data-part="speaker">
+            <div class="mod-top">
+              <span class="mod-name">Speaker + Overvolt Resistor</span>
+              <span class="mod-tag">Soldering</span>
+            </div>
+            <div class="mod-compare">
+              <div class="compare-box">
+                <span class="compare-label label-orig">Original</span>
+                Stock 8&Omega; speaker &amp; standard gain
+              </div>
+              <div class="compare-box">
+                <span class="compare-label label-mod mod-state-label">Modded</span>
+                Upgraded cavity acoustic seal &amp; tuned audio gain
+              </div>
+            </div>
+          </article>
         </div>
-      </details>
-    </section>
-  </main>
+      </aside>
 
-  <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">↑ Top</button>
+      <!-- Center Stage: Interactive Hardware Blueprint -->
+      <main class="pane" id="pane-blueprint" aria-label="Interactive Hardware Blueprint">
+        <div class="canvas-stage">
+          <div class="blueprint-svg-wrap">
+            <svg id="blueprintSvg" class="blueprint-svg" viewBox="0 0 420 560" role="img" aria-label="R36S 6S-V20 73.0mm by 118.0mm rear hardware blueprint">
+              <defs>
+                <pattern id="cadGrid" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <path d="M 14 0 L 0 0 0 14" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="0.6" />
+                </pattern>
+              </defs>
 
-  <footer class="container">
-    <p>R36S-V20.2025-05-18.2552 • Adaptive Mobile, Tablet &amp; Desktop Edition</p>
-  </footer>
+              <rect width="420" height="560" fill="#0b0f18" rx="8" />
+              <rect width="420" height="560" fill="url(#cadGrid)" rx="8" />
+
+              <!-- CAD Dimension Callouts -->
+              <g id="cadDimsLayer">
+                <!-- Top Width Dimension: 73.0 mm -->
+                <line x1="95" y1="36" x2="325" y2="36" stroke="#22c55e" stroke-width="1.2" />
+                <line x1="95" y1="28" x2="95" y2="75" stroke="#22c55e" stroke-width="0.9" stroke-dasharray="3 2" />
+                <line x1="325" y1="28" x2="325" y2="75" stroke="#22c55e" stroke-width="0.9" stroke-dasharray="3 2" />
+                <rect x="178" y="23" width="64" height="20" rx="4" fill="#091510" stroke="#22c55e" stroke-width="1" />
+                <text x="210" y="37" text-anchor="middle" fill="#4ade80" font-size="11" font-weight="700" id="dimWidthText">73.0 mm</text>
+
+                <!-- Right Height Dimension: 118.0 mm -->
+                <line x1="366" y1="80" x2="366" y2="515" stroke="#22c55e" stroke-width="1.2" />
+                <line x1="325" y1="80" x2="374" y2="80" stroke="#22c55e" stroke-width="0.9" stroke-dasharray="3 2" />
+                <line x1="325" y1="515" x2="374" y2="515" stroke="#22c55e" stroke-width="0.9" stroke-dasharray="3 2" />
+                <rect x="338" y="285" width="56" height="20" rx="4" fill="#091510" stroke="#22c55e" stroke-width="1" />
+                <text x="366" y="299" text-anchor="middle" fill="#4ade80" font-size="10.5" font-weight="700" id="dimHeightText">118.0 mm</text>
+              </g>
+
+              <!-- Outer Shell Body -->
+              <g id="shellLayer">
+                <rect x="95" y="80" width="230" height="435" rx="18" class="shell-body" />
+                <rect x="107" y="92" width="206" height="411" rx="12" fill="#111622" stroke="#2a364e" stroke-width="1.5" />
+              </g>
+
+              <!-- Shoulder Triggers (L2, L1, R1, R2) -->
+              <g class="triggers-layer" id="triggersLayer">
+                <rect x="98" y="182" width="38" height="26" rx="5" fill="#7e22ce" id="triggerL2" class="part-interactive" data-part="triggers" />
+                <text x="117" y="199" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" pointer-events="none">L2</text>
+
+                <rect x="144" y="182" width="44" height="26" rx="5" fill="#9333ea" id="triggerL1" class="part-interactive" data-part="triggers" />
+                <text x="166" y="199" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" pointer-events="none">L1</text>
+
+                <rect x="232" y="182" width="44" height="26" rx="5" fill="#9333ea" id="triggerR1" class="part-interactive" data-part="triggers" />
+                <text x="254" y="199" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" pointer-events="none">R1</text>
+
+                <rect x="284" y="182" width="38" height="26" rx="5" fill="#7e22ce" id="triggerR2" class="part-interactive" data-part="triggers" />
+                <text x="303" y="199" text-anchor="middle" fill="#fff" font-size="11" font-weight="800" pointer-events="none">R2</text>
+              </g>
+
+              <!-- Mainboard & IC Components -->
+              <g id="boardLayer">
+                <!-- RK3326-S SoC -->
+                <rect x="114" y="138" width="58" height="34" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.2" id="partSoc" class="part-interactive" data-part="soc" />
+                <text x="143" y="153" text-anchor="middle" fill="#e2e8f0" font-size="9" font-weight="700" pointer-events="none">RK3326-S</text>
+                <text x="143" y="164" text-anchor="middle" fill="#94a3b8" font-size="7.5" pointer-events="none">1.3GHz A35</text>
+
+                <!-- RAM IC -->
+                <rect x="178" y="138" width="46" height="34" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.2" id="partRam" class="part-interactive part-selected" data-part="ram" />
+                <text x="201" y="153" text-anchor="middle" fill="#38bdf8" font-size="8" font-weight="700" pointer-events="none">XINYUWEI</text>
+                <text x="201" y="164" text-anchor="middle" fill="#94a3b8" font-size="7.5" pointer-events="none">1GB DDR3</text>
+
+                <!-- Unpopulated / Mod Slot -->
+                <rect x="228" y="138" width="34" height="34" rx="4" fill="#151c2b" stroke="#475569" stroke-dasharray="2 2" id="partSlot2" class="part-interactive" data-part="ram" />
+                <text x="245" y="153" text-anchor="middle" fill="#94a3b8" font-size="7" pointer-events="none">UNPOP</text>
+                <text x="245" y="163" text-anchor="middle" fill="#64748b" font-size="6.5" pointer-events="none">NO TRACES</text>
+
+                <!-- OTG / Wi-Fi Zone -->
+                <rect x="267" y="138" width="48" height="34" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.2" id="partWifi" class="part-interactive" data-part="wifi" />
+                <text x="291" y="152" text-anchor="middle" fill="#e2e8f0" font-size="7.5" font-weight="700" pointer-events="none">OTG D+/D-</text>
+                <text x="291" y="163" text-anchor="middle" fill="#94a3b8" font-size="7" pointer-events="none">Wi-Fi Mod Zone</text>
+
+                <!-- Game Console Label -->
+                <rect x="176" y="102" width="84" height="26" rx="4" fill="#172033" stroke="#334155" />
+                <text x="218" y="114" text-anchor="middle" fill="#cbd5e1" font-size="7.5" font-weight="700">GAME CONSOLE</text>
+                <text x="218" y="123" text-anchor="middle" fill="#64748b" font-size="6.5">MODEL: R36S | DC 5V-1.5A</text>
+
+                <!-- MIPI ZIF Connector -->
+                <rect x="166" y="216" width="88" height="18" rx="4" fill="#271c38" stroke="#a855f7" stroke-width="1" id="partDtb" class="part-interactive" data-part="dtb" />
+                <text x="210" y="228" text-anchor="middle" fill="#e9d5ff" font-size="7.5" font-weight="700" pointer-events="none">MIPI ZIF (rf3536k3ka.dtb)</text>
+
+                <!-- Speaker Bay -->
+                <ellipse cx="210" cy="256" rx="34" ry="14" fill="#161f30" stroke="#475569" stroke-width="1.2" id="partSpeaker" class="part-interactive" data-part="speaker" />
+                <text x="210" y="255" text-anchor="middle" fill="#cbd5e1" font-size="7.5" font-weight="700" pointer-events="none">SPEAKER BAY</text>
+                <text x="210" y="264" text-anchor="middle" fill="#94a3b8" font-size="6.5" pointer-events="none">28.0 mm Cutout</text>
+
+                <!-- PCB Silkscreen Stamp -->
+                <text x="210" y="294" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-weight="800" letter-spacing="0.4">R36S-V20 2025-05-18 [2552]</text>
+              </g>
+
+              <!-- Battery Bay & Battery Door Layer -->
+              <g class="battery-door-layer" id="batteryDoorLayer">
+                <rect x="122" y="308" width="176" height="156" rx="10" fill="rgba(147, 51, 234, 0.24)" stroke="#c084fc" stroke-width="1.6" id="partBattery" class="part-interactive" data-part="battery" />
+                <text x="210" y="378" text-anchor="middle" fill="#f3e8ff" font-size="10.5" font-weight="800" pointer-events="none">804068 3500mAh Li-Ion Bay</text>
+                <text x="210" y="393" text-anchor="middle" fill="#d8b4fe" font-size="8.5" pointer-events="none">68.5 &times; 40.5 &times; 9.2 mm Cavity &bull; JST-XH 2-Pin</text>
+
+                <!-- Analog Stick Rear Recesses -->
+                <circle cx="154" cy="342" r="22" fill="none" stroke="rgba(255,255,255,0.12)" stroke-dasharray="2 2" pointer-events="none" />
+                <text x="154" y="345" text-anchor="middle" fill="rgba(255,255,255,0.22)" font-size="7.5" font-weight="700" pointer-events="none">L-STICK</text>
+
+                <circle cx="266" cy="342" r="22" fill="none" stroke="rgba(255,255,255,0.12)" stroke-dasharray="2 2" pointer-events="none" />
+                <text x="266" y="345" text-anchor="middle" fill="rgba(255,255,255,0.22)" font-size="7.5" font-weight="700" pointer-events="none">R-STICK</text>
+              </g>
+
+              <!-- Bottom Ports: DC 5V, OTG, AUX -->
+              <g id="portsLayer">
+                <rect x="128" y="476" width="42" height="16" rx="3" fill="#1e293b" stroke="#64748b" class="part-interactive" data-part="power" />
+                <text x="149" y="487" text-anchor="middle" fill="#cbd5e1" font-size="7.5" font-weight="700" pointer-events="none">DC 5V</text>
+
+                <rect x="194" y="476" width="32" height="16" rx="3" fill="#1e293b" stroke="#64748b" class="part-interactive" data-part="wifi" />
+                <text x="210" y="487" text-anchor="middle" fill="#94a3b8" font-size="7" font-weight="700" pointer-events="none">OTG</text>
+
+                <rect x="250" y="476" width="42" height="16" rx="3" fill="#1e293b" stroke="#64748b" class="part-interactive" data-part="speaker" />
+                <text x="271" y="487" text-anchor="middle" fill="#cbd5e1" font-size="7.5" font-weight="700" pointer-events="none">AUX</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="stage-hint" id="stageHint">
+            Click or tap any component on the board or shell to inspect specs &amp; mods.
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Rail: Live Loadout Telemetry & Component Inspector -->
+      <aside class="pane" id="pane-inspector" aria-label="Live Loadout Telemetry and Component Inspector">
+        <div class="right-stack">
+          <section class="panel-box">
+            <div class="pane-header-row" style="margin-bottom:0.25rem;">
+              <span class="pane-title">Live Loadout Telemetry</span>
+              <span style="font-size:var(--fs-xs); color:var(--accent-purple); font-weight:700;">6S-V20 2552</span>
+            </div>
+
+            <div class="telemetry-grid">
+              <div class="stat-tile">
+                <span class="stat-label">Effective RAM</span>
+                <span class="stat-value modded" id="teleRam">717 MB (Stock)</span>
+              </div>
+              <div class="stat-tile">
+                <span class="stat-label">DDR3 / CPU Clock</span>
+                <span class="stat-value modded" id="teleClock">328 / 1296 MHz</span>
+              </div>
+              <div class="stat-tile">
+                <span class="stat-label">Peak SoC Temp</span>
+                <span class="stat-value" id="teleTemp">74 &deg;C (Bare)</span>
+              </div>
+              <div class="stat-tile">
+                <span class="stat-label">Battery &amp; BMS</span>
+                <span class="stat-value" id="teleBat">3500mAh Unprot.</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-box" id="inspectorBox">
+            <div class="pane-header-row" style="margin-bottom:0.2rem;">
+              <span class="pane-title">Component Inspector</span>
+              <span style="font-size:var(--fs-xs); color:var(--text-muted);">&mdash;</span>
+            </div>
+
+            <div class="inspector-title" id="inspTitle">R36S 6S-V20 Mainboard (2025-05-18)</div>
+            <div class="inspector-sub" id="inspSub">Batch 2552 &bull; Single-Channel DDR3 Clone</div>
+            <p class="inspector-desc" id="inspDesc">
+              Physical Envelope: 73.0 &times; 118.0 mm outer shell housing a 68.5 &times; 112.0 mm black PCB. How to Use: Use the top layer toggles or opacity sliders to peel back the Outer Shell, Rear Triggers, and full-width Battery Door, or click any component to inspect its stock vs. modded specs.
+            </p>
+
+            <div class="safety-box">
+              <strong>Hardware Safety Rules:</strong>
+              <ul>
+                <li>Must use <code class="copy-chip" title="Tap to copy">rf3536k3ka.dtb</code> (standard R36S DTBs yield a black screen).</li>
+                <li>Charge strictly at <strong>5V 1A&ndash;1.5A</strong> via USB-A to USB-C on the DC port.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </div>
+  </div>
 
   <script>
-    // 1. LIVE DEVICE & INPUT MODE DETECTOR
-    const modeBadge = document.getElementById('deviceModeBadge');
-    function updateDeviceMode() {
-      const width = window.innerWidth;
+    // 1. Live Device & Pointer Mode Detection
+    const deviceBadge = document.getElementById('deviceBadge');
+    function updateDeviceBadge() {
+      const w = window.innerWidth;
       const isTouch = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
-      let formFactor = 'Desktop';
-
-      if (width < 600) {
-        formFactor = 'Mobile';
-      } else if (width < 1024 || (width <= 1366 && isTouch)) {
-        formFactor = 'Tablet';
-      }
-
-      const inputType = isTouch ? 'Touch' : 'Pointer';
-      modeBadge.textContent = `${formFactor} • ${inputType}`;
+      let kind = 'Desktop';
+      if (w < 600) kind = 'Mobile';
+      else if (w < 1024 || (w <= 1366 && isTouch)) kind = 'Tablet';
+      deviceBadge.textContent = `${kind} • ${isTouch ? 'Touch' : 'Pointer'} (${w}px)`;
     }
-    updateDeviceMode();
-    window.addEventListener('resize', updateDeviceMode);
+    updateDeviceBadge();
+    window.addEventListener('resize', updateDeviceBadge);
 
-    // 2. INSTANT SEARCH FILTER WITH MATCH COUNTER & CLEAR BUTTON
-    const filterInput = document.getElementById('filterInput');
-    const clearFilterBtn = document.getElementById('clearFilterBtn');
-    const searchStatus = document.getElementById('searchStatus');
-    const emptyState = document.getElementById('emptyState');
-    const filterSections = document.querySelectorAll('.filter-section');
-
-    function applyFilter() {
-      const term = filterInput.value.toLowerCase().trim();
-      clearFilterBtn.style.display = term ? 'inline-flex' : 'none';
-      let visibleCount = 0;
-
-      filterSections.forEach((section) => {
-        const items = section.querySelectorAll('.filter-item');
-        let sectionMatches = 0;
-
-        items.forEach((item) => {
-          const matches = item.textContent.toLowerCase().includes(term);
-          item.style.display = matches ? '' : 'none';
-          if (matches) {
-            sectionMatches++;
-            visibleCount++;
-          }
-        });
-
-        section.style.display = sectionMatches > 0 ? '' : 'none';
+    // 2. Mobile View Switcher Tabs (< 900px)
+    const paneTabs = document.querySelectorAll('.pane-tab');
+    const panes = document.querySelectorAll('.pane');
+    paneTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-pane');
+        paneTabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+        panes.forEach((p) => p.classList.toggle('mobile-visible', p.id === targetId));
       });
+    });
 
-      if (!term) {
-        searchStatus.textContent = '';
-        emptyState.style.display = 'none';
+    // 3. Unit Conversion (mm <-> in) & Caliper Ruler Toggle
+    let isMetric = true;
+    let caliperOn = false;
+    const unitBtn = document.getElementById('unitBtn');
+    const caliperBtn = document.getElementById('caliperBtn');
+    const dimWidthText = document.getElementById('dimWidthText');
+    const dimHeightText = document.getElementById('dimHeightText');
+
+    function updateDimensionsLabel() {
+      if (isMetric) {
+        dimWidthText.textContent = '73.0 mm';
+        dimHeightText.textContent = '118.0 mm';
+        unitBtn.textContent = 'Units: Metric (mm)';
       } else {
-        searchStatus.textContent = `Showing ${visibleCount} matching item${visibleCount === 1 ? '' : 's'}`;
-        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        dimWidthText.textContent = '2.87 in';
+        dimHeightText.textContent = '4.65 in';
+        unitBtn.textContent = 'Units: Imperial (in)';
       }
     }
 
-    filterInput.addEventListener('input', applyFilter);
-    clearFilterBtn.addEventListener('click', () => {
-      filterInput.value = '';
-      applyFilter();
-      filterInput.focus();
+    unitBtn.addEventListener('click', () => {
+      isMetric = !isMetric;
+      updateDimensionsLabel();
     });
 
-    // 3. TAP-TO-COPY CODE SNIPPETS
-    document.querySelectorAll('code.copyable').forEach((el) => {
-      el.addEventListener('click', async () => {
-        const originalText = el.textContent;
-        if (originalText === 'Copied!') return;
+    caliperBtn.addEventListener('click', () => {
+      caliperOn = !caliperOn;
+      caliperBtn.classList.toggle('active', caliperOn);
+      caliperBtn.textContent = caliperOn ? 'Caliper Ruler: ON' : 'Caliper Ruler: OFF';
+      document.getElementById('stageHint').textContent = caliperOn
+        ? 'Caliper Ruler active: 73.0 mm (2.87") width × 118.0 mm (4.65") height.'
+        : 'Click or tap any component on the board or shell to inspect specs & mods.';
+    });
+
+    // 4. Layer Toggles & Opacity Sliders
+    const shellToggleBtn = document.getElementById('shellToggleBtn');
+    const triggersToggleBtn = document.getElementById('triggersToggleBtn');
+    const doorToggleBtn = document.getElementById('doorToggleBtn');
+    const cadToggleBtn = document.getElementById('cadToggleBtn');
+
+    function bindToggle(btn, targetEl) {
+      btn.addEventListener('click', () => {
+        const isActive = btn.classList.toggle('active');
+        targetEl.style.display = isActive ? '' : 'none';
+      });
+    }
+
+    bindToggle(shellToggleBtn, document.getElementById('shellLayer'));
+    bindToggle(triggersToggleBtn, document.getElementById('triggersLayer'));
+    bindToggle(doorToggleBtn, document.getElementById('batteryDoorLayer'));
+    bindToggle(cadToggleBtn, document.getElementById('cadDimsLayer'));
+
+    // Shell & Trigger Colors
+    const shellColorName = document.getElementById('shellColorName');
+    document.querySelectorAll('.color-dot[data-color]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.color-dot[data-color]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const hex = btn.getAttribute('data-color');
+        document.documentElement.style.setProperty('--shell-color', hex);
+        shellColorName.textContent = btn.getAttribute('data-name');
+      });
+    });
+
+    document.querySelectorAll('.color-dot[data-tcolor]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.color-dot[data-tcolor]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tHex = btn.getAttribute('data-tcolor');
+        document.querySelectorAll('#triggersLayer rect.part-interactive').forEach((rect) => {
+          rect.setAttribute('fill', tHex);
+        });
+      });
+    });
+
+    // Opacity Sliders
+    function bindSlider(inputId, valId, cssVar) {
+      const input = document.getElementById(inputId);
+      const valLabel = document.getElementById(valId);
+      input.addEventListener('input', () => {
+        const pct = Number(input.value);
+        valLabel.textContent = `${pct}%`;
+        document.documentElement.style.setProperty(cssVar, (pct / 100).toFixed(2));
+      });
+    }
+    bindSlider('shellOpacity', 'shellOpacityVal', '--shell-opacity');
+    bindSlider('doorOpacity', 'doorOpacityVal', '--door-opacity');
+    bindSlider('bumperOpacity', 'bumperOpacityVal', '--bumper-opacity');
+
+    // 5. Toggle Upgrades & Telemetry Sync
+    let upgradesEnabled = true;
+    const toggleUpgradesBtn = document.getElementById('toggleUpgradesBtn');
+    const modStateLabels = document.querySelectorAll('.mod-state-label');
+
+    function syncTelemetry() {
+      const teleRam = document.getElementById('teleRam');
+      const teleClock = document.getElementById('teleClock');
+      const teleTemp = document.getElementById('teleTemp');
+      const teleBat = document.getElementById('teleBat');
+
+      if (upgradesEnabled) {
+        teleRam.textContent = '717 MB + 512 ZRAM';
+        teleClock.textContent = '528 / 1512 MHz';
+        teleTemp.textContent = '64 °C (Copper Shim)';
+        teleBat.textContent = '4000mAh Protected';
+      } else {
+        teleRam.textContent = '717 MB (Stock)';
+        teleClock.textContent = '328 / 1296 MHz';
+        teleTemp.textContent = '74 °C (Bare)';
+        teleBat.textContent = '3500mAh Unprot.';
+      }
+    }
+    syncTelemetry();
+
+    toggleUpgradesBtn.addEventListener('click', () => {
+      upgradesEnabled = !upgradesEnabled;
+      toggleUpgradesBtn.classList.toggle('off', !upgradesEnabled);
+      toggleUpgradesBtn.textContent = upgradesEnabled ? 'TOGGLE UPGRADES' : 'UPGRADES: OFF';
+      modStateLabels.forEach((lbl) => lbl.classList.toggle('inactive', !upgradesEnabled));
+      syncTelemetry();
+    });
+
+    // 6. Component Inspector Selection (SVG + Mod Cards)
+    const partDetails = {
+      ram: {
+        title: 'XINYUWEI 1GB DDR3 FBGA-96 & Unpopulated Slot',
+        sub: 'Single-Channel DDR3 • Batch 2552',
+        desc: 'Stock 6S-V20 ships with a single DDR3 memory IC and an unpopulated secondary footprint. Supports LZ4 ZRAM tuning, DDR3 clock scaling, or expert 2GB BGA swap with ddrbin patch.'
+      },
+      soc: {
+        title: 'Rockchip RK3326-S Quad-Core SoC',
+        sub: 'Cortex-A35 • Mali-G31 MP2',
+        desc: 'Stock clock runs up to 1296 MHz with optional OPP profile tuning up to 1512 MHz when paired with proper thermal dissipation and a copper heatsink shim.'
+      },
+      dtb: {
+        title: 'MIPI Display ZIF & Panel DTB (rf3536k3ka.dtb)',
+        sub: '3.5" 640×480 IPS Panel',
+        desc: '6S-V20 (2552) panels require the matching rf3536k3ka.dtb device tree blob on the BOOT partition; flashing mismatched stock R36S DTBs can cause a blank display.'
+      },
+      battery: {
+        title: '804068 Li-Ion / Li-Po Battery Bay',
+        sub: '68.5 × 40.5 × 9.2 mm • JST-XH 2-Pin',
+        desc: 'Fits standard 804068 cells (3500mAh stock or up to 4000mAh protected cells). Always verify JST-XH polarity before plugging in.'
+      },
+      wifi: {
+        title: 'Internal USB-OTG & Wi-Fi Mod Zone',
+        sub: 'USB 2.0 Host Lines (D+ / D- / 5V / GND)',
+        desc: 'Exposed test/pad points allow internalizing a compact RTL8188FTV or MT7601U module or using a standard USB-C OTG adapter.'
+      },
+      speaker: {
+        title: 'Speaker Bay & Audio Output',
+        sub: '28.0 mm Cutout • 3.5mm AUX',
+        desc: 'Rear enclosure features a 28.0 mm speaker cavity and bottom AUX jack. Sealing foam around the speaker improves low-end clarity.'
+      },
+      triggers: {
+        title: 'Rear Shoulder Triggers (L1 / L2 / R1 / R2)',
+        sub: 'Stacked Rear Tactile & Rocker Assembly',
+        desc: 'Inspect trigger travel and alignment against the rear shell cutouts and bumper opacity layer.'
+      },
+      power: {
+        title: 'DC 5V Charging & Power Input',
+        sub: '5V 1A–1.5A Recommended',
+        desc: 'Use a regulated 5V USB-A to USB-C cable rather than high-voltage USB-C PD bricks.'
+      }
+    };
+
+    const inspTitle = document.getElementById('inspTitle');
+    const inspSub = document.getElementById('inspSub');
+    const inspDesc = document.getElementById('inspDesc');
+    const svgParts = document.querySelectorAll('.part-interactive');
+    const modCards = document.querySelectorAll('.mod-card');
+
+    function selectPart(partKey) {
+      const info = partDetails[partKey] || partDetails.ram;
+      inspTitle.textContent = info.title;
+      inspSub.textContent = info.sub;
+      inspDesc.textContent = info.desc;
+
+      svgParts.forEach((el) => {
+        el.classList.toggle('part-selected', el.getAttribute('data-part') === partKey);
+      });
+      modCards.forEach((card) => {
+        card.classList.toggle('selected', card.getAttribute('data-part') === partKey);
+      });
+    }
+
+    svgParts.forEach((el) => {
+      el.addEventListener('click', () => {
+        selectPart(el.getAttribute('data-part'));
+      });
+    });
+
+    modCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        selectPart(card.getAttribute('data-part'));
+      });
+    });
+
+    // 7. Tap-to-Copy on .copy-chip elements
+    document.querySelectorAll('.copy-chip').forEach((chip) => {
+      chip.addEventListener('click', async () => {
+        const txt = chip.getAttribute('data-raw') || chip.textContent;
+        if (chip.textContent === 'Copied!') return;
+        chip.setAttribute('data-raw', txt);
         try {
-          await navigator.clipboard.writeText(originalText);
-          el.textContent = 'Copied!';
-          setTimeout(() => { el.textContent = originalText; }, 1100);
-        } catch (_) {
-          // Fallback silently if clipboard permissions are restricted
-        }
+          await navigator.clipboard.writeText(txt);
+          chip.textContent = 'Copied!';
+          setTimeout(() => { chip.textContent = txt; }, 1100);
+        } catch (_) {}
       });
-    });
-
-    // 4. SCROLL-SPY NAVIGATION & BACK-TO-TOP BUTTON
-    const navLinks = document.querySelectorAll('.nav-link');
-    const backToTopBtn = document.getElementById('backToTop');
-
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      backToTopBtn.classList.toggle('visible', scrollY > 360);
-
-      let currentId = '';
-      filterSections.forEach((sec) => {
-        if (sec.style.display !== 'none' && scrollY >= sec.offsetTop - 160) {
-          currentId = sec.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach((link) => {
-        link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
-      });
-    }, { passive: true });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
