@@ -1,0 +1,19 @@
+{
+  "name": "R36S 6S-V20 (2552) \u2014 Interactive Hardware Blueprint",
+  "short_name": "R36S V20 CAD",
+  "description": "Anatomical PCB blueprint, shell transparency layer, caliper ruler, and mod telemetry simulator for the R36S 6S-V20 2025-05-18 (2552).",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0d14",
+  "theme_color": "#0b0d14",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

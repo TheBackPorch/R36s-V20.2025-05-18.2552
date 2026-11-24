@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>R36S 6S-V20 (2025-05-18) — Interactive Hardware Blueprint Rev 1.6</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="R36S V20 CAD">
+<meta name="theme-color" content="#0b0d14">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-512.png">
+<link rel="shortcut icon" type="image/png" href="data:image/png;base64,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">
+<style>
+  :root {
+    --bg: #0b0d14;
+    --panel: #131622;
+    --panel-border: #252a3d;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #a855f7;
+    --green: #39ff14;
+    --orange: #ff6b00;
+    --gold: #facc15;
+    --shell-color: #6d28d9;
+    --shell-alpha: 0.58;
+    --door-color: #6d28d9;
+    --door-alpha: 0.65;
+    --bumper-color: #11131a;
+    --bumper-alpha: 0.92;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #0f121d;
+    border-bottom: 1px solid var(--panel-border);
+    padding: 10px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-badge {
+    background: linear-gradient(135deg, #6d28d9, #facc15);
+    color: #0b0d14;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+  .brand h1 { font-size: 15px; font-weight: 700; }
+  .brand span { font-size: 11px; color: var(--muted); display: block; }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  button.btn {
+    background: #1a1f30;
+    color: var(--text);
+    border: 1px solid #2e354d;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  button.btn:hover { border-color: var(--accent); }
+  button.btn.active {
+    background: #2e1a47;
+    border-color: var(--accent);
+    color: #f3e8ff;
+    box-shadow: 0 0 8px rgba(168,85,247,0.35);
+  }
+  button.btn.green-active {
+    background: #132e18;
+    border-color: var(--green);
+    color: #dcfce7;
+  }
+  .swatch-bar {
+    background: #10131e;
+    border-bottom: 1px solid var(--panel-border);
+    padding: 8px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+  }
+  .swatch-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: transform 0.12s;
+  }
+  .swatch:hover, .swatch.selected {
+    transform: scale(1.18);
+    border-color: var(--gold);
+  }
+  .slider-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .slider-group input[type="range"] {
+    width: 76px;
+    accent-color: var(--accent);
+  }
+  .workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 310px 1fr 310px;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  @media (max-width: 1080px) {
+    .workspace { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gold);
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 6px;
+  }
+  .mod-item {
+    background: #0e111b;
+    border: 1px solid #1f2538;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .mod-item:hover { border-color: var(--accent); }
+  .mod-item input { margin-top: 3px; accent-color: var(--green); }
+  .mod-title { font-size: 12px; font-weight: 700; color: #f8fafc; }
+  .mod-sub { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+  .mod-tag-orig { color: #fb923c; font-weight: 600; }
+  .mod-tag-up { color: #4ade80; font-weight: 600; }
+  .stage {
+    background: radial-gradient(circle at center, #161b2c 0%, #090b11 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    position: relative;
+    min-height: 580px;
+  }
+  svg#cadCanvas {
+    width: 100%;
+    max-width: 410px;
+    height: auto;
+    cursor: crosshair;
+    user-select: none;
+  }
+  .hotspot { cursor: pointer; transition: opacity 0.15s; }
+  .hotspot:hover rect, .hotspot:hover circle {
+    stroke: var(--gold);
+    stroke-width: 3.5;
+  }
+  .telemetry-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .stat-box {
+    background: #0e111b;
+    border: 1px solid #1f2538;
+    border-radius: 7px;
+    padding: 8px;
+  }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .stat-val { font-size: 14px; font-weight: 800; color: var(--green); margin-top: 2px; }
+  .inspector-box {
+    background: #0e111b;
+    border: 1px solid #1f2538;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .inspector-box h3 { font-size: 14px; color: #f8fafc; margin-bottom: 4px; }
+  .pill {
+    display: inline-block;
+    background: #231942;
+    color: #d8b4fe;
+    border: 1px solid #6b21a8;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  .warn-banner {
+    background: rgba(255,107,0,0.12);
+    border: 1px solid rgba(255,107,0,0.45);
+    color: #fed7aa;
+    font-size: 11px;
+    padding: 8px;
+    border-radius: 6px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="brand-badge">6S-V20 (2552)</span>
+    <div>
+      <h1>R36S 6S-V20 (2025-05-18) — Interactive Hardware Blueprint Rev 1.6</h1>
+      <span>Anatomical Rear PCB, Translucent Shell Mask &amp; Dual-Unit CAD Caliper</span>
+    </div>
+  </div>
+  <div class="toolbar">
+    <button class="btn active" id="btnUnits" onclick="toggleUnits()">Units: Metric (mm)</button>
+    <button class="btn" id="btnCaliper" onclick="toggleCaliper()">Caliper Ruler: OFF</button>
+    <button class="btn active" id="btnShell" onclick="toggleLayer('shellLayer', this)">Outer Shell</button>
+    <button class="btn active" id="btnBumpers" onclick="toggleLayer('bumperLayer', this)">L1/L2/R1/R2</button>
+    <button class="btn active" id="btnDoor" onclick="toggleLayer('doorLayer', this)">Battery Door</button>
+    <button class="btn active" id="btnDims" onclick="toggleLayer('dimsLayer', this)">CAD Dims</button>
+  </div>
+</header>
+
+<div class="swatch-bar">
+  <div class="swatch-group">
+    <strong>Shell &amp; Door:</strong>
+    <span class="swatch selected" style="background:#6d28d9" title="Atomic Purple" onclick="setShellColor('#6d28d9', this)"></span>
+    <span class="swatch" style="background:#1e293b" title="Smoke Black" onclick="setShellColor('#1e293b', this)"></span>
+    <span class="swatch" style="background:#cbd5e1" title="Glacier Clear" onclick="setShellColor('#cbd5e1', this)"></span>
+    <span class="swatch" style="background:#0284c7" title="Hyrule Blue" onclick="setShellColor('#0284c7', this)"></span>
+    <span class="swatch" style="background:#15803d" title="Kokiri Green" onclick="setShellColor('#15803d', this)"></span>
+    <span class="swatch" style="background:#ea580c" title="Goron Orange" onclick="setShellColor('#ea580c', this)"></span>
+  </div>
+  <div class="swatch-group">
+    <strong>Triggers:</strong>
+    <span class="swatch selected" style="background:#11131a" title="Stock Matte Black" onclick="setBumperColor('#11131a', this)"></span>
+    <span class="swatch" style="background:#facc15" title="Triforce Gold" onclick="setBumperColor('#facc15', this)"></span>
+    <span class="swatch" style="background:#e2e8f0" title="Custom White" onclick="setBumperColor('#e2e8f0', this)"></span>
+  </div>
+  <div class="slider-group">
+    <label>Shell:</label>
+    <input type="range" min="0" max="100" value="58" oninput="setAlpha('--shell-alpha', this.value)">
+  </div>
+  <div class="slider-group">
+    <label>Door:</label>
+    <input type="range" min="0" max="100" value="65" oninput="setAlpha('--door-alpha', this.value)">
+  </div>
+  <div class="slider-group">
+    <label>Bumpers:</label>
+    <input type="range" min="0" max="100" value="92" oninput="setAlpha('--bumper-alpha', this.value)">
+  </div>
+</div>
+
+<div class="workspace">
+  <!-- LEFT PANEL: ORIGINAL VS MOD LOADOUT -->
+  <div class="card">
+    <h2>Original vs. Mod Loadout</h2>
+    <div id="modList"></div>
+  </div>
+
+  <!-- CENTER STAGE: 10:1 ORTHOGRAPHIC CAD CANVAS -->
+  <div class="stage">
+    <svg id="cadCanvas" viewBox="0 0 730 1180" xmlns="http://www.w3.org/2000/svg">
+      <!-- LAYER 1: PCB SUBSTRATE (68.5 x 112.0 mm -> 685 x 1120) -->
+      <g id="pcbLayer">
+        <rect x="22.5" y="30" width="685" height="1120" rx="28" fill="#10151c" stroke="#334155" stroke-width="4"/>
+        <!-- Silkscreen & Copper Traces -->
+        <text x="235" y="545" fill="#94a3b8" font-family="monospace" font-size="18" font-weight="bold">R36S-V20 2025-05-18 (2552)</text>
+        <text x="275" y="570" fill="#64748b" font-family="monospace" font-size="14">DTB: rf3536k3ka.dtb</text>
+        <path d="M180 280 H330 V430 M420 280 H560 V480 M210 660 H520" stroke="#1e293b" stroke-width="6" fill="none"/>
+
+        <!-- Top Ports: DC, OTG, AUX -->
+        <rect x="135" y="24" width="76" height="32" rx="4" fill="#94a3b8"/>
+        <text x="148" y="45" fill="#0f172a" font-size="11" font-weight="bold">USB-DC</text>
+        <rect x="515" y="24" width="76" height="32" rx="4" fill="#94a3b8"/>
+        <text x="524" y="45" fill="#0f172a" font-size="11" font-weight="bold">USB-OTG</text>
+        <rect x="335" y="24" width="56" height="34" rx="4" fill="#475569"/>
+        <text x="346" y="45" fill="#f8fafc" font-size="11" font-weight="bold">AUX</text>
+
+        <!-- HOTSPOTS -->
+        <g class="hotspot" onclick="selectPart('soc')">
+          <rect x="145" y="185" width="140" height="140" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/>
+          <text x="172" y="250" fill="#f8fafc" font-size="14" font-weight="bold">RK3326-S</text>
+          <text x="176" y="270" fill="#38bdf8" font-size="11">1.3 GHz SoC</text>
+          <!-- Copper Shim Overlay -->
+          <rect id="ov-heatsink" x="138" y="178" width="154" height="154" rx="6" fill="rgba(234,88,12,0.55)" stroke="#fb923c" stroke-width="3" style="display:none"/>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('ram_u1')">
+          <rect x="320" y="185" width="90" height="140" rx="6" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+          <text x="330" y="250" fill="#f8fafc" font-size="12" font-weight="bold">XINYUWEI</text>
+          <text x="335" y="268" fill="#4ade80" font-size="11">1GB DDR3</text>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('ram_u2')">
+          <rect x="435" y="185" width="90" height="140" rx="6" fill="none" stroke="#64748b" stroke-dasharray="6,4" stroke-width="2"/>
+          <text x="447" y="250" fill="#64748b" font-size="11" font-weight="bold">EMPTY U2</text>
+          <text x="448" y="268" fill="#64748b" font-size="10">No Traces</text>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('speaker')">
+          <circle cx="365" cy="445" r="95" fill="#090d14" stroke="#f97316" stroke-width="3"/>
+          <circle cx="365" cy="445" r="42" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+          <text x="326" y="450" fill="#fdba74" font-size="13" font-weight="bold">SPEAKER 28mm</text>
+          <rect id="ov-resistor" x="455" y="385" width="38" height="16" rx="3" fill="#facc15" style="display:none"/>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('wifi')">
+          <rect x="545" y="160" width="95" height="110" rx="6" fill="#0f172a" stroke="#a855f7" stroke-dasharray="5,3" stroke-width="2"/>
+          <text x="556" y="212" fill="#d8b4fe" font-size="11" font-weight="bold">OTG PADS</text>
+          <text x="556" y="228" fill="#94a3b8" font-size="10">D+ / D- / 5V</text>
+          <rect id="ov-wifi" x="545" y="160" width="95" height="110" rx="6" fill="rgba(168,85,247,0.55)" stroke="#e9d5ff" stroke-width="3" style="display:none"/>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('uart')">
+          <rect x="85" y="425" width="66" height="90" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="98" y="468" fill="#38bdf8" font-size="11" font-weight="bold">UART</text>
+          <text x="92" y="484" fill="#94a3b8" font-size="10">1.5Mbps</text>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('rumble')">
+          <circle cx="135" cy="645" r="44" fill="#1e293b" stroke="#facc15" stroke-width="2"/>
+          <text x="108" y="643" fill="#fef08a" font-size="11" font-weight="bold">M+ / M-</text>
+          <text x="108" y="658" fill="#94a3b8" font-size="10">Rumble</text>
+          <circle id="ov-rumble" cx="135" cy="645" r="44" fill="rgba(250,204,21,0.45)" stroke="#fef08a" stroke-width="3" style="display:none"/>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('sticks')">
+          <rect x="75" y="755" width="130" height="130" rx="14" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+          <text x="102" y="822" fill="#f8fafc" font-size="12" font-weight="bold">LEFT STICK</text>
+          <rect x="525" y="755" width="130" height="130" rx="14" fill="#1e293b" stroke="#4ade80" stroke-width="2.5"/>
+          <text x="548" y="822" fill="#f8fafc" font-size="12" font-weight="bold">RIGHT STICK</text>
+        </g>
+
+        <g class="hotspot" onclick="selectPart('battery')">
+          <rect x="165" y="690" width="400" height="420" rx="16" fill="rgba(15,23,42,0.85)" stroke="#f97316" stroke-width="2.5"/>
+          <text x="275" y="885" fill="#fdba74" font-size="16" font-weight="bold">804068 Li-Ion Cell</text>
+          <text x="272" y="910" fill="#94a3b8" font-size="12">3500mAh (No Stock BMS)</text>
+          <rect id="ov-bms" x="285" y="695" width="160" height="24" rx="4" fill="#39ff14" style="display:none"/>
+        </g>
+      </g>
+
+      <!-- LAYER 2: TRANSLUCENT OUTER SHELL (73.0 x 118.0 mm -> 730 x 1180) -->
+      <g id="shellLayer" style="pointer-events:none; opacity: var(--shell-alpha);">
+        <rect x="4" y="4" width="722" height="1172" rx="46" fill="var(--shell-color)" stroke="#e2e8f0" stroke-width="4"/>
+        <!-- Top Spec Decal Bay -->
+        <rect x="215" y="72" width="300" height="165" rx="10" fill="rgba(15,23,42,0.75)" stroke="#94a3b8" stroke-width="2"/>
+        <text x="278" y="135" fill="#f8fafc" font-size="18" font-weight="bold">MODEL: R36S</text>
+        <text x="255" y="165" fill="#cbd5e1" font-size="13">DC 5V 1A–1.5A MAX INPUT</text>
+        <text x="268" y="192" fill="#facc15" font-size="12" font-weight="bold">BOARD: 6S-V20 (2552)</text>
+      </g>
+
+      <!-- LAYER 3: STEPPED L2/L1 | R1/R2 REAR TRIGGERS -->
+      <g id="bumperLayer" style="pointer-events:none; opacity: var(--bumper-alpha);">
+        <rect x="42" y="295" width="130" height="145" rx="16" fill="var(--bumper-color)" stroke="#475569" stroke-width="3"/>
+        <text x="92" y="375" fill="#f8fafc" font-size="20" font-weight="bold">L2</text>
+        <rect x="182" y="315" width="145" height="125" rx="16" fill="var(--bumper-color)" stroke="#475569" stroke-width="3"/>
+        <text x="242" y="382" fill="#f8fafc" font-size="20" font-weight="bold">L1</text>
+        <rect x="403" y="315" width="145" height="125" rx="16" fill="var(--bumper-color)" stroke="#475569" stroke-width="3"/>
+        <text x="462" y="382" fill="#f8fafc" font-size="20" font-weight="bold">R1</text>
+        <rect x="558" y="295" width="130" height="145" rx="16" fill="var(--bumper-color)" stroke="#475569" stroke-width="3"/>
+        <text x="610" y="375" fill="#f8fafc" font-size="20" font-weight="bold">R2</text>
+      </g>
+
+      <!-- LAYER 4: FULL-WIDTH REAR BATTERY DOOR -->
+      <g id="doorLayer" style="pointer-events:none; opacity: var(--door-alpha);">
+        <rect x="26" y="665" width="678" height="465" rx="26" fill="var(--door-color)" stroke="#cbd5e1" stroke-width="3"/>
+        <rect x="315" y="1105" width="100" height="25" rx="6" fill="rgba(15,23,42,0.65)" stroke="#cbd5e1" stroke-width="2"/>
+        <text x="336" y="1122" fill="#f8fafc" font-size="11" font-weight="bold">LATCH</text>
+      </g>
+
+      <!-- LAYER 5: CAD DIMENSIONS -->
+      <g id="dimsLayer" style="pointer-events:none;">
+        <line x1="4" y1="1166" x2="726" y2="1166" stroke="#39ff14" stroke-width="2"/>
+        <text id="dimWidth" x="310" y="1158" fill="#39ff14" font-family="monospace" font-size="14" font-weight="bold">W: 73.0 mm</text>
+        <line x1="716" y1="4" x2="716" y2="1176" stroke="#39ff14" stroke-width="2"/>
+        <text id="dimHeight" x="595" y="595" fill="#39ff14" font-family="monospace" font-size="14" font-weight="bold">H: 118.0 mm</text>
+      </g>
+
+      <!-- LAYER 6: CALIPER OVERLAY -->
+      <g id="caliperLayer" style="pointer-events:none;"></g>
+    </svg>
+  </div>
+
+  <!-- RIGHT PANEL: TELEMETRY & INSPECTOR -->
+  <div class="card">
+    <h2>Live Hardware Telemetry</h2>
+    <div class="telemetry-grid">
+      <div class="stat-box">
+        <div class="stat-label">Effective RAM</div>
+        <div class="stat-val" id="statRam">717 MB</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">DDR3 Bandwidth</div>
+        <div class="stat-val" id="statDdr">328 MHz</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">CPU / GPU Clock</div>
+        <div class="stat-val" id="statCpu">1.30 / 0.52 GHz</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Battery / BMS</div>
+        <div class="stat-val" id="statBat">3500mAh Raw</div>
+      </div>
+    </div>
+
+    <h2>Component Inspector</h2>
+    <div class="inspector-box" id="inspectorBox">
+      <span class="pill">SELECT A HOTSPOT</span>
+      <h3>Click any component on the board</h3>
+      <p style="color:var(--muted)">Inspect exact package dimensions in metric or US imperial, stock clone bottlenecks, and verified rework instructions. Toggle <strong>Outer Shell</strong>, <strong>L1/L2/R1/R2</strong>, or <strong>Battery Door</strong> in the top bar to reveal hidden pads.</p>
+    </div>
+
+    <div class="warn-banner">
+      <strong>V20 Clone Survival Rules:</strong><br>
+      1. Requires <code>rf3536k3ka.dtb</code> (standard R36S DTBs yield a black screen).<br>
+      2. Charge via <strong>5V 1A–1.5A USB-A to USB-C</strong> only; USB-PD chargers can damage the unprotected battery circuit.
+    </div>
+  </div>
+</div>
+
+<script>
+let isMetric = true;
+let caliperOn = false;
+let calPts = [];
+
+const MODS = [
+  { id: 'zram', name: '512MB LZ4 ZRAM Pool', orig: '717MB raw usable RAM', mod: '~1.15GB compressed headroom', active: true },
+  { id: 'ddroc', name: 'DDR3 & CPU/GPU OPP Unlock', orig: '328MHz RAM / 1.3GHz CPU', mod: '528MHz RAM (+61%) / 1.51GHz', active: false },
+  { id: 'ram2g', name: 'Single-Chip 2GB DDR3L Swap', orig: '1GB XINYUWEI FBGA-96', mod: '2GB DDR3L BGA + ddrbin patch', active: false },
+  { id: 'shim', name: '15×15×2mm Copper Heatsink', orig: 'Bare RK3326-S & RAM IC', mod: 'Copper shim + thermal pad', active: true, overlay: 'ov-heatsink' },
+  { id: 'wifi', name: 'Internal USB Wi-Fi Module', orig: 'External OTG dongle only', mod: 'RTL8188FTV soldered to OTG', active: false, overlay: 'ov-wifi' },
+  { id: 'spk', name: 'Speaker + 15Ω Overvolt Fix', orig: 'Stock 28mm speaker (no R)', mod: 'Switch speaker + 15Ω resistor', active: false, overlay: 'ov-resistor' },
+  { id: 'rumble', name: '3.7V Rumble + M7 Diode', orig: 'Unpopulated M+/M- pads', mod: '10mm coin motor + M7 flyback', active: false, overlay: 'ov-rumble' },
+  { id: 'bms', name: '4000mAh Protected Li-Po', orig: '3500mAh 804068 (No BMS)', mod: '904068 4000mAh w/ BMS board', active: true, overlay: 'ov-bms' }
+];
+
+const PARTS = {
+  soc: { tag: 'SILICON CORE', name: 'Rockchip RK3326-S (PX30S)', mm: '14.0 × 14.0 × 1.1 mm', inch: '0.551 × 0.551 × 0.043 in', desc: 'Quad-core Cortex-A35 @ 1.3 GHz + Mali-G31 MP2. Can be unlocked to 1512 MHz CPU / 600 MHz GPU via OPP table edits in rf3536k3ka.dtb. Pair with a 15×15×2mm copper shim.' },
+  ram_u1: { tag: 'MEMORY U1', name: 'XINYUWEI 1GB DDR3 IC', mm: '9.0 × 14.0 × 1.0 mm', inch: '0.354 × 0.551 × 0.039 in', desc: 'Single-channel 32-bit DDR3 chip (~717MB usable). Supports 528 MHz DMC overclocking or hot-air BGA replacement with a pin-compatible 2GB DDR3L FBGA-96 IC.' },
+  ram_u2: { tag: 'UNPOPULATED', name: 'Empty U2 RAM Footprint', mm: '9.0 × 14.0 mm', inch: '0.354 × 0.551 in', desc: 'V20 clone PCBs omit the internal data traces and termination resistors to U2. Do not attempt to solder a second chip here—upgrade U1 or enable LZ4 ZRAM instead.' },
+  speaker: { tag: 'AUDIO BAY', name: '28mm Mono Speaker + Amp', mm: '28.0 × 4.5 mm', inch: '1.102 × 0.177 in', desc: 'V20 clones running ArkOS4Clone can overvolt the speaker amp. Wire a 10Ω–22Ω (0.25W) inline resistor on the positive lead when upgrading to an iPhone/Switch speaker.' },
+  wifi: { tag: 'USB-OTG EXPANSION', name: 'Internal Wi-Fi Solder Zone', mm: '12.5 × 10.0 × 2.0 mm', inch: '0.492 × 0.394 × 0.079 in', desc: 'Tap USB-OTG D+, D-, 3.3V/5V, and GND pads to tuck a stripped RTL8188FTV or MT7601U module inside the upper cavity. Add a tiny slide switch to cut idle drain.' },
+  uart: { tag: 'KERNEL DEBUG', name: 'UART Serial Header (1.5 Mbps)', mm: '6.0 × 8.5 mm', inch: '0.236 × 0.335 in', desc: 'Exposes TX, RX, and GND pads running at 1,500,000 baud for live U-Boot and Linux kernel console logging on macOS via USB-to-TTL.' },
+  rumble: { tag: 'HAPTICS', name: 'Rumble Motor Pads (M+ / M-)', mm: '10.0 × 2.7 mm', inch: '0.394 × 0.106 in', desc: 'Solder a 3.7V coin vibration motor across M+/M- with an M7 flyback diode (cathode stripe to M+) to protect the GPIO driver from back-EMF spikes.' },
+  sticks: { tag: 'CONTROLS', name: 'Dual Analog Thumbsticks', mm: '18.5 × 18.5 × 12.0 mm', inch: '0.728 × 0.728 × 0.472 in', desc: 'Drop-in ribbon-cable modules. Direct swap with Nintendo Switch Hall Effect joysticks (GuliKit / KMR) to eliminate potentiometer drift.' },
+  battery: { tag: 'POWER BAY', name: '804068 / 904068 Battery Bay', mm: '68.5 × 40.5 × 9.2 mm', inch: '2.697 × 1.594 × 0.362 in', desc: 'Stock 3500mAh cell lacks a protection IC. Upgrade to a BMS-protected 804068 or 904068 (3500–4000mAh) cell using the existing JST-XH 2-pin lead.' }
+};
+
+function renderMods() {
+  const box = document.getElementById('modList');
+  box.innerHTML = MODS.map((m, i) => `
+    <label class="mod-item">
+      <input type="checkbox" ${m.active ? 'checked' : ''} onchange="toggleMod(${i})">
+      <div>
+        <div class="mod-title">${m.name}</div>
+        <div class="mod-sub"><span class="mod-tag-orig">Orig:</span> ${m.orig}<br><span class="mod-tag-up">Mod:</span> ${m.mod}</div>
+      </div>
+    </label>
+  `).join('');
+  updateState();
+}
+
+function toggleMod(idx) {
+  MODS[idx].active = !MODS[idx].active;
+  updateState();
+}
+
+function updateState() {
+  const activeIds = new Set(MODS.filter(m => m.active).map(m => m.id));
+  MODS.forEach(m => {
+    if (m.overlay) {
+      const el = document.getElementById(m.overlay);
+      if (el) el.style.display = m.active ? 'block' : 'none';
+    }
+  });
+  let ram = activeIds.has('ram2g') ? 2048 : 717;
+  if (activeIds.has('zram')) ram = Math.round(ram * 1.55);
+  document.getElementById('statRam').textContent = ram + ' MB';
+  document.getElementById('statDdr').textContent = activeIds.has('ddroc') ? '528 MHz (+61%)' : '328 MHz';
+  document.getElementById('statCpu').textContent = activeIds.has('ddroc') ? '1.51 / 0.60 GHz' : '1.30 / 0.52 GHz';
+  document.getElementById('statBat').textContent = activeIds.has('bms') ? '4000mAh + BMS' : '3500mAh Raw';
+}
+
+let currentPart = null;
+function selectPart(key) {
+  currentPart = key;
+  const p = PARTS[key];
+  const dim = isMetric ? p.mm : p.inch;
+  document.getElementById('inspectorBox').innerHTML = `
+    <span class="pill">${p.tag}</span>
+    <h3>${p.name}</h3>
+    <p style="color:var(--green);font-family:monospace;font-size:11px;margin-bottom:6px;">Footprint: ${dim}</p>
+    <p style="color:var(--text)">${p.desc}</p>
+  `;
+}
+
+function toggleUnits() {
+  isMetric = !isMetric;
+  document.getElementById('btnUnits').textContent = isMetric ? 'Units: Metric (mm)' : 'Units: US Imperial (in)';
+  document.getElementById('dimWidth').textContent = isMetric ? 'W: 73.0 mm' : 'W: 2.874 in';
+  document.getElementById('dimHeight').textContent = isMetric ? 'H: 118.0 mm' : 'H: 4.646 in';
+  if (currentPart) selectPart(currentPart);
+  drawCaliper();
+}
+
+function toggleLayer(id, btn) {
+  const el = document.getElementById(id);
+  const vis = el.style.display !== 'none';
+  el.style.display = vis ? 'none' : 'block';
+  btn.classList.toggle('active', !vis);
+}
+
+function setShellColor(hex, el) {
+  document.documentElement.style.setProperty('--shell-color', hex);
+  document.documentElement.style.setProperty('--door-color', hex);
+  el.parentElement.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setBumperColor(hex, el) {
+  document.documentElement.style.setProperty('--bumper-color', hex);
+  el.parentElement.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setAlpha(cssVar, val) {
+  document.documentElement.style.setProperty(cssVar, (val / 100).toFixed(2));
+}
+
+function toggleCaliper() {
+  caliperOn = !caliperOn;
+  calPts = [];
+  const btn = document.getElementById('btnCaliper');
+  btn.textContent = caliperOn ? 'Caliper Ruler: ON (Click 2 Pts)' : 'Caliper Ruler: OFF';
+  btn.classList.toggle('green-active', caliperOn);
+  drawCaliper();
+}
+
+document.getElementById('cadCanvas').addEventListener('click', (e) => {
+  if (!caliperOn) return;
+  const svg = document.getElementById('cadCanvas');
+  const pt = svg.createSVGPoint();
+  pt.x = e.clientX;
+  pt.y = e.clientY;
+  const loc = pt.matrixTransform(svg.getScreenCTM().inverse());
+  if (calPts.length >= 2) calPts = [];
+  calPts.push({ x: loc.x, y: loc.y });
+  drawCaliper();
+});
+
+function drawCaliper() {
+  const g = document.getElementById('caliperLayer');
+  if (!calPts.length) { g.innerHTML = ''; return; }
+  let html = calPts.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="7" fill="#39ff14" stroke="#0b0d14" stroke-width="2"/>`).join('');
+  if (calPts.length === 2) {
+    const dx = (calPts[1].x - calPts[0].x) / 10;
+    const dy = (calPts[1].y - calPts[0].y) / 10;
+    const distMm = Math.hypot(dx, dy);
+    const label = isMetric ? `${distMm.toFixed(1)} mm` : `${(distMm / 25.4).toFixed(3)} in`;
+    const mx = (calPts[0].x + calPts[1].x) / 2;
+    const my = (calPts[0].y + calPts[1].y) / 2;
+    html += `<line x1="${calPts[0].x}" y1="${calPts[0].y}" x2="${calPts[1].x}" y2="${calPts[1].y}" stroke="#39ff14" stroke-width="3" stroke-dasharray="6,4"/>`;
+    html += `<rect x="${mx-48}" y="${my-16}" width="96" height="24" rx="5" fill="#0b0d14" stroke="#39ff14" stroke-width="2"/>`;
+    html += `<text x="${mx}" y="${my}" fill="#39ff14" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">${label}</text>`;
+  }
+  g.innerHTML = html;
+}
+
+renderMods();
+</script>
+</body>
+</html>
